@@ -1,0 +1,153 @@
+<% include ../partials/header.ejs %>
+
+			<div class="col-md-5 offset-md-1">
+          		<div class="card mb-4 shadow-sm">
+            		<img  width="100%" height="225"  src="<%= post.url %>" >
+            		<div class="card-body">			
+						<h4><%= post.author %> - <%= post.title %> </h4> 
+						<p class="card-text"><%= post.desc %></p>
+						
+							               			
+            		</div>
+          		</div>
+				
+				
+				
+				<div id="comment-container" class=" <% if(post.comments.length > 0 ){ %> <%= 'alert alert-success' %> <% } %>">
+					<% post.comments.forEach( (comment) => { %>
+					
+						<p> <strong><%= comment.username %></strong> - <%= comment.date.toDateString(); %><br> 
+						<%= comment.text %></p>
+							
+					
+					<% }); %>
+					
+					
+				</div>
+				
+				
+        	</div> 
+
+			<div class="col-md-5">
+				<div>
+					
+					<div class="msg-container-upt-dlt">
+					
+					</div>
+					
+					
+					
+					<a id="update" class="btn btn-outline-success" href='/form_to_update_article/<%= post._id %>'>Update Article </a> 	
+					
+					<a id="delete" class="btn btn-outline-danger" href="/delete">Delete Article</a> 
+						
+				</div><br><br>
+				
+				<div class="msg-container">
+					
+				</div>
+				
+				<form id="form_comment" action="/adding_comments" method="post" class="form-signin">
+					<div class="form-group">
+						<input type="hidden" id="post_id" name="post_id" value="<%= post._id %>">
+						<label for="comment" class="sr-only"></label>
+						<textarea type="text" id="comment" name="text" class="form-control" placeholder="Comments" ></textarea>
+						
+					</div>
+					
+					 <div>				  
+  						<button class="btn btn-lg btn-primary btn-block" 
+								type="submit"> Submit</button>
+  					</div>
+                	
+				</form>
+			</div>
+
+
+
+	<script>
+
+		$(document).ready( function(){
+
+			let form_comment = $("#form_comment");
+
+			form_comment.submit(function(e){
+
+				e.preventDefault();
+
+
+				let comment = $("#comment").val();
+				let post_id = $("#post_id").val();
+				$.ajax({
+
+					url: `/adding_comments`,
+					type: "post",
+					data: {comment, post_id},
+					dataType : "json"
+
+
+				 }).done(function(result){
+
+					console.log(result);
+
+
+					if(result.response == 1){
+
+						$.ajax({
+
+					url: `/ajax`,
+					type: "post",
+					data: {post_id},
+					dataType : "json"
+
+
+				 }).done(function(data){
+
+						console.log(data);
+
+						let str = "";
+
+						$.each(data.msg, function(i, value){
+
+
+							str = str + '<p><strong>' + value.username + '</strong> - ' + value.date + '<br>' + value.text + '</p>' ; 
+
+
+						});
+
+						$("#comment-container").html(str);
+						$("#comment").val("");
+
+					 });
+				}
+					if(result.response == 0){
+
+						$(".msg-container").html(`<div class="alert alert-danger alert-dismissible 
+						fade show" role="alert"> ${result.msg} 
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>`);
+
+					 }
+
+				}).fail(function(xhr, status, errorThrown){
+					console.log(status, errorThrown);	
+				});
+
+
+
+			});
+		});
+		
+	
+	</script>
+	
+
+
+<% include ../partials/footer.ejs %>
+
+
+
+
+			

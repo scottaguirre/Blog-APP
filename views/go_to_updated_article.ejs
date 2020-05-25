@@ -1,0 +1,22 @@
+<% include ../partials/header.ejs %>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 offset-md-3">
+				
+				<% if( typeof uptMsg != 'undefined'){ %><div class="alert alert-success 
+					alert-dismissible fade show" role="alert"> <%= uptMsg %> 
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+						<span aria-hidden="true">&times;</span>
+					</button> <br> <a href=" <%= link %>">Go to article</a> 
+				<% } %> 
+			
+				
+			</div>		
+		</div>	
+	</div>
+
+		
+		
+		
+<% include ../partials/footer.ejs %>

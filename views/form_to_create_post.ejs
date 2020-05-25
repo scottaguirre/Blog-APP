@@ -1,0 +1,64 @@
+<% include ../partials/header.ejs %>
+
+	<div class="container">
+		<div class="row">
+			<div class=" col-md-6 offset-md-3">
+				
+				<% if(typeof errors != 'undefined') { 
+				
+					errors.forEach(function (error) { %> 
+				
+						<div class="alert alert-danger alert-dismissible 
+						fade show" role="alert"> <%= error.msg %> 
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div> 
+				
+				<% });
+				} %>
+				
+				<% if(typeof msg != 'undefined') { %>
+				
+					
+						<div class="alert alert-danger alert-dismissible 
+						fade show" role="alert"> <%= msg %> 
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div> 
+				
+				<% } %>
+				
+				
+				
+				<form class="form-signin" method="post" action="/create_post">
+  					<img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+  					<h1 class="h3 mb-3 font-weight-normal">Create an article</h1>
+					
+	  				<label for="inputEmail" class="sr-only">Title</label>
+  						<input type="text" name="post[title]" id="inputEmail" class="form-control" placeholder="Title"   value="<% if( typeof post != 'undefined'){%><%=post.title%><%}%>" autofocus>
+							
+					<label for="inputPassword" class="sr-only">Author</label>
+  						<input type="hidden" id="inputPassword" name="post[author]" class="form-control" placeholder="Author" value="<% if( typeof username != 'undefined'){%><%=username%><%}%>" ><br>
+					
+					
+ 					 <label for="inputPassword" class="sr-only">Url</label>
+  						<input type="text" name="post[url]" id="inputPassword" class="form-control" placeholder="Url"  value="<% if( typeof post != 'undefined'){%><%=post.url%><%}%>" ><br>
+					
+					
+					<label for="inputPassword" class="sr-only"></label>
+					<textarea type="text" name="post[desc]" id="inputPassword" class="form-control" placeholder="Content" ><%if( typeof post != 'undefined'){%><%=post.desc %><%}%></textarea><br>
+					
+					
+					
+ 					 <div>				  
+  						<button class="btn btn-lg btn-primary btn-block" type="submit">Submit </button>
+  					</div>
+				</form>
+				  
+			</div>	<!-- col -->	  
+		</div>	<!-- row-->  
+	</div> <!-- container-->
+
+<% include ../partials/footer.ejs %>

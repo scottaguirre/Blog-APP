@@ -1,0 +1,27 @@
+<% include ../partials/header.ejs %>
+
+<% posts.forEach(function(post){ %>	
+
+
+			<div class="col-md-4">
+          		<div class="card mb-4 shadow-sm">
+            		<img  width="100%" height="225"  src="<%= post.url %>" >
+            		<div class="card-body">			
+						<h4><%= post.author %> - <%= post.title %> </h4> 
+						<p class="card-text"><%= post.desc.substring(0, 200); %></p>
+						<a href="/show_individual_post/<%= post._id%>">Read All Article</a>
+                          			
+            		</div>
+          		</div>
+        	</div> 
+		
+
+<%	}); %>
+			
+		
+
+<% include ../partials/footer.ejs %>
+
+
+	
+	
